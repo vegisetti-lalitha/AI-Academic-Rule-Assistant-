@@ -1,0 +1,11 @@
+{
+  "name": "UniVerify - Academic RAG & Regulations Assistant",
+  "description": "Official university regulations & circulars RAG counselor with exact page citations, multimodal analysis for PDFs/videos/diagrams, quiz generator, and multilingual support (English, Telugu, Hindi).",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

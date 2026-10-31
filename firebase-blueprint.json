@@ -1,0 +1,144 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with student or administrator role and academic credentials",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique Firebase Authentication UID"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "User email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Full name of the student or administrator"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["student", "admin"],
+          "description": "Role determining access to admin upload tools"
+        },
+        "rollNumber": {
+          "type": "string",
+          "description": "Student roll number or employee ID"
+        },
+        "department": {
+          "type": "string",
+          "description": "Academic department"
+        },
+        "yearSemester": {
+          "type": "string",
+          "description": "Academic year and semester"
+        },
+        "attendance": {
+          "type": "number",
+          "description": "Current percentage of attendance"
+        },
+        "cgpa": {
+          "type": "number",
+          "description": "Current cumulative grade point average"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of account creation"
+        }
+      },
+      "required": ["id", "email", "displayName", "role"]
+    },
+    "OfficialDocument": {
+      "title": "OfficialDocument",
+      "description": "University regulation, circular, or handbook page chunk",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique chunk identifier"
+        },
+        "title": {
+          "type": "string",
+          "description": "Official title of the university document"
+        },
+        "category": {
+          "type": "string",
+          "description": "Category such as Regulations, Exam Rules, Circulars"
+        },
+        "pageNumber": {
+          "type": "number",
+          "description": "Specific page number within the handbook"
+        },
+        "section": {
+          "type": "string",
+          "description": "Section clause name"
+        },
+        "content": {
+          "type": "string",
+          "description": "Full extracted text content for RAG retrieval"
+        },
+        "dateAdded": {
+          "type": "string",
+          "description": "ISO date of document indexing"
+        },
+        "isOfficial": {
+          "type": "boolean",
+          "description": "Whether document is officially verified by administration"
+        },
+        "uploadedBy": {
+          "type": "string",
+          "description": "UID of the admin who uploaded the document"
+        }
+      },
+      "required": ["id", "title", "pageNumber", "content"]
+    },
+    "UserQuery": {
+      "title": "UserQuery",
+      "description": "Academic counseling questions and verified responses",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique query ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "UID of user asking the question"
+        },
+        "query": {
+          "type": "string",
+          "description": "Student question text"
+        },
+        "answer": {
+          "type": "string",
+          "description": "Grounded answer from AI Counselor"
+        },
+        "language": {
+          "type": "string",
+          "description": "Language code (en, te, hi)"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "ISO timestamp of interaction"
+        }
+      },
+      "required": ["id", "userId", "query", "answer"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Authenticated user profile documents"
+    },
+    "/documents/{documentId}": {
+      "schema": "OfficialDocument",
+      "description": "Global official university regulations and circulars index"
+    },
+    "/users/{userId}/queries/{queryId}": {
+      "schema": "UserQuery",
+      "description": "User specific academic inquiry history"
+    }
+  }
+}
